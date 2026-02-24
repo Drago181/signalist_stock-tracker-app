@@ -45,7 +45,7 @@ export async function getNews(symbols?: string[]): Promise<MarketNewsArticle[]> 
                         const url = `${FINNHUB_BASE_URL}/company-news?symbol=${encodeURIComponent(sym)}&from=${range.from}&to=${range.to}&token=${token}`;
                         const articles = await fetchJSON<RawNewsArticle[]>(url, 300);
                         perSymbolArticles[sym] = (articles || []).filter(validateArticle);
-                    } catch (e) {
+                    } catch (e: unknown) {
                         console.error('Error fetching company news for', sym, e);
                         perSymbolArticles[sym] = [];
                     }
@@ -92,7 +92,7 @@ export async function getNews(symbols?: string[]): Promise<MarketNewsArticle[]> 
 
         const formatted = unique.slice(0, maxArticles).map((a, idx) => formatArticle(a, false, undefined, idx));
         return formatted;
-    } catch (err) {
+    } catch (err: unknown) {
         console.error('getNews error:', err);
         throw new Error('Failed to fetch news');
     }
@@ -121,7 +121,7 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
                         // Revalidate every hour
                         const profile = await fetchJSON<any>(url, 3600);
                         return { sym, profile } as { sym: string; profile: any };
-                    } catch (e) {
+                    } catch (e: unknown) {
                         console.error('Error fetching profile2 for', sym, e);
                         return { sym, profile: null } as { sym: string; profile: any };
                     }
@@ -173,7 +173,7 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
             .slice(0, 15);
 
         return mapped;
-    } catch (err) {
+    } catch (err: unknown) {
         console.error('Error in stock search:', err);
         return [];
     }

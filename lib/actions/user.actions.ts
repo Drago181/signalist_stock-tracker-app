@@ -23,7 +23,7 @@ export const getAllUsersForNewsEmail = async () => {
                 email: user.email as string,
                 name: user.name as string,
             }));
-    } catch (e) {
+    } catch (e: unknown) {
         console.log('Error fetching users for news email:', e);
         return [] as { id: string; email: string; name: string }[];
     }

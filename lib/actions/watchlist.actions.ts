@@ -21,7 +21,7 @@ export const getWatchlistSymbolsByEmail = async (email: string): Promise<string[
     // Query watchlist by userId and return symbols only
     const items = await Watchlist.find({ userId }, {symbol: 1}).lean();
     return items.map((i) => String(i.symbol));
-  } catch (e) {
+  } catch (e: unknown) {
     console.error('Error in getWatchlistSymbolsByEmail:', e);
     return [];
   }
