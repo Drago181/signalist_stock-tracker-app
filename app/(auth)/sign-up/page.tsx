@@ -82,7 +82,7 @@ const SignUp = () => {
                     name='country'
                     label='Country'
                     control={control}
-                    errors={errors.country}
+                    error={errors.country}
                     required
                 />
 
@@ -116,7 +116,6 @@ const SignUp = () => {
                 <Button type='submit' disabled={isSubmitting} className='yellow-btn w-full mt-5'>
                     {isSubmitting ? 'Creating Account' : 'Start Your Investing Journey'}
                 </Button>
-
                 <FooterLink text='Already have an account?' linkText='Sign In' href='sign-in' />
             </form>
         </>
