@@ -29,6 +29,10 @@ type CountrySelectProps = {
     error?: FieldError;
     required?: boolean;
 };
+type CountryOption = {
+    label: string;
+    value: string;
+};
 
 const CountrySelect = ({
                            value,
@@ -40,7 +44,7 @@ const CountrySelect = ({
     const [open, setOpen] = useState(false);
 
     // Get country options with flags
-    const countries = countryList().getData();
+    const countries = countryList().getData() as CountryOption[];
 
     // Helper function to get flag emoji
     const getFlagEmoji = (countryCode: string) => {
