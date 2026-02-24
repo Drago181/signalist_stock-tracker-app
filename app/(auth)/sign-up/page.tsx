@@ -82,7 +82,7 @@ const SignUp = () => {
                     name='country'
                     label='Country'
                     control={control}
-                    errors={errors.country}
+                    error={errors.country}
                     required
                 />
 
