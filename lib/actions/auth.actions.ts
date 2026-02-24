@@ -4,6 +4,16 @@ import {getAuth} from "@/lib/better-auth/auth";
 import {inngest} from "@/lib/inngest/client";
 import {headers} from "next/headers";
 
+const getErrorMessage = (e: unknown): string => {
+    if (e instanceof Error) return e.message;
+    if (typeof e === 'string') return e;
+    try {
+        return JSON.stringify(e);
+    } catch {
+        return 'Unexpected error occurred';
+    }
+};
+
 export const signUpWithEmail = async ({ email, password, fullName, country, investmentGoals, riskTolerance, preferredIndustry }: SignUpFormData) => {
     try{
         const auth = await getAuth();
@@ -26,11 +36,10 @@ export const signUpWithEmail = async ({ email, password, fullName, country, inve
         }
 
         return { success: true, data: response }
-    }catch(e: any) {
+    }catch(e: unknown) {
         console.log('Sign up failed:', e);
 
-        const message =
-            e instanceof Error ? e.message : 'Unexpected error occurred';
+        const message = getErrorMessage(e);
 
         return {
             success: false,
@@ -43,9 +52,9 @@ export const signOut = async () => {
     try {
         const auth = await getAuth();
         await auth.api.signOut({ headers: await headers() });
-    }catch(e: any) {
+    }catch(e: unknown) {
         console.log('Sign out failed:', e)
-        return { success: false, error: 'Sign out failed'}
+        return { success: false, error: `Sign out failed: ${getErrorMessage(e)}`}
     }
 }
 
@@ -57,8 +66,8 @@ export const signInWithEmail = async ({ email, password }: SignInFormData) => {
         })
 
         return { success: true, data: response }
-    }catch(e: any) {
+    }catch(e: unknown) {
         console.log('Sign in failed:', e)
-        return { success: false, error: `Sign in failed: ${e.message}`}
+        return { success: false, error: `Sign in failed: ${getErrorMessage(e)}`}
     }
 }
